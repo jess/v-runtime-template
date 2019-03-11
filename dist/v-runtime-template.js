@@ -53,9 +53,19 @@ var index = {
 
       //build new objects by removing keys if already exists (e.g. created by mixins)
       Object.keys($data).forEach(function (e) {if(typeof this$1.$data[e]==="undefined") { passthrough.$data[e] = $data[e]; }} );
-      Object.keys($props).forEach(function (e) {if(typeof this$1.$props[e]==="undefined") { passthrough.$props[e] = $props[e]; }} );
-      Object.keys(methods).forEach(function (e) {if(typeof this$1.$options.methods[e]==="undefined") { passthrough.methods[e] = methods[e]; }} );
-      Object.keys(computed).forEach(function (e) {if(typeof this$1.$options.computed[e]==="undefined") { passthrough.computed[e] = computed[e]; }} );
+
+      // $props is undefined. Does a new Vue instance have props? 
+      // I also tried when the parent is a component and unless you declare props, I get same error.
+      //Object.keys($props).forEach(function (e) {if(typeof this$1.$props[e]==="undefined") { passthrough.$props[e] = $props[e]; }} );
+
+      // this$1.$options.methods is undefined. I'm not sure why.
+      // But if we pass it through, then it works.
+      Object.keys(methods).forEach(function (e) { passthrough.methods[e] = methods[e]; } );
+
+      // this$1.$options.computed is undefined. I'm not sure why.
+      // But if we pass it through, then it works.
+      Object.keys(computed).forEach(function (e) { passthrough.computed[e] = computed[e]; } );
+
       Object.keys(components).forEach(function (e) {if(typeof this$1.$options.components[e]==="undefined") { passthrough.components[e] = components[e]; }} );
 
       var methodKeys = Object.keys(passthrough.methods || {});
